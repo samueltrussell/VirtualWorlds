@@ -77,6 +77,7 @@ void ABasicWallJumper::Tick( float DeltaTime )
 
 		if (actor->ActorHasTag(FName("Kill")) && _pStartPositionActor != nullptr) {
 			this->TeleportTo(_pStartPositionActor->GetTransform().GetLocation(), this->GetActorTransform().Rotator());
+			_pSprite->BodyInstance.SetLinearVelocity(FVector(0.0f, 0.0f, 0.0f), false);
 		}
 	}
 
@@ -145,4 +146,8 @@ void ABasicWallJumper::Climb(float value)
 		}
 	}
 
+}
+
+void ABasicWallJumper::SetSpawnPoint(AActor* pNewSpawnPointActor) {
+	_pStartPositionActor = pNewSpawnPointActor;
 }

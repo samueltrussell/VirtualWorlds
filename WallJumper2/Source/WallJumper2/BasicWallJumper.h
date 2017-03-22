@@ -23,6 +23,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom")
 	class AActor* _pStartPositionActor;
 
+	void SetSpawnPoint(AActor* pNewSpawnPointActor);
+
 protected:
 
 	// APawn interface
