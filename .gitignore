@@ -19,6 +19,7 @@
 /*.xcodeproj
 /*/*.sln
 /*/*.xcodeproj
+*.VC.opendb
 
 # Ignore local user Visual Studio files in any folder
 *.suo
@@ -87,4 +88,7 @@
 
 # Other binaries
 /.ue4dependencies
+
+# Wierd temp folder...
+/*/enc_temp_folder/**
 
