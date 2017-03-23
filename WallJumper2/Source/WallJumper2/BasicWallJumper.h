@@ -45,6 +45,24 @@ private:
 	UPROPERTY(EditAnywhere, BluePrintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
 	class USphereComponent* _pSphere;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
+	class UAudioComponent* _pJumpAudio;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
+	class USoundBase* _pJumpSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
+	class USoundBase* _pWallJumpSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
+	class USoundBase* _pDeathSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
+	class USoundBase* _pThudSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
+	class USoundBase* _pScuffleSound;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
 	float _MaxVelX = 1000.0f;
 	
@@ -62,7 +80,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Custom", meta = (AllowPrivateAccess = "true"))
 	float _ForceScalarZ = 800000.0f;
-	
+
 	void MoveRight(float value);
 
 	void Climb(float value);
@@ -70,6 +88,7 @@ private:
 	//Movement Related booleans
 	bool _OnWall = false;
 	bool _OnFloor = false;
+	bool _WasOnFloor = false;
 	float _JumpScalar = 1.0f;
 
 
