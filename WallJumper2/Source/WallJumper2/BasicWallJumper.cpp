@@ -42,6 +42,11 @@ ABasicWallJumper::ABasicWallJumper()
 	_pSphere->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	_pSphere->SetSphereRadius(115.0f);
 
+	// Create and set up sound stuff
+	_pJumpAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("SoundEmitter"));
+	_pJumpAudio->bAutoActivate = false;
+	_pJumpAudio->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
+
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
@@ -73,13 +78,23 @@ void ABasicWallJumper::Tick( float DeltaTime )
 
 		if (actor->ActorHasTag(FName("Floor"))) {
 			_OnFloor = true;
+			if (!_WasOnFloor) {
+				_pJumpAudio->SetSound(_pThudSound);
+				_pJumpAudio->Play();
+				_WasOnFloor = true;
+			}
 		}
 
 		if (actor->ActorHasTag(FName("Kill")) && _pStartPositionActor != nullptr) {
 			this->TeleportTo(_pStartPositionActor->GetTransform().GetLocation(), this->GetActorTransform().Rotator());
 			_pSprite->BodyInstance.SetLinearVelocity(FVector(0.0f, 0.0f, 0.0f), false);
+			_pJumpAudio->SetSound(_pDeathSound);
+			_pJumpAudio->Play();
 		}
 	}
+
+	if (!_OnFloor)
+		_WasOnFloor = false;
 
 }
 
@@ -113,6 +128,8 @@ void ABasicWallJumper::MoveRight(float value)
 				FVector currentVel = _pSprite->BodyInstance.GetUnrealWorldVelocity();
 				FVector newVel = FVector(_MaxVelX * value, 0.0f, currentVel.Z);
 				_pSprite->BodyInstance.SetLinearVelocity(newVel, false);
+				_pJumpAudio->SetSound(_pWallJumpSound);
+				_pJumpAudio->Play();
 			}
 			// ...or a constant pressure push into the wall to slow descent.
 			else {
@@ -131,6 +148,11 @@ void ABasicWallJumper::Climb(float value)
 
 	if (value != 0.0f) {
 		if (_OnWall) {
+			if (!_pJumpAudio->IsPlaying()) {
+				_pJumpAudio->SetSound(_pScuffleSound);
+				_pJumpAudio->Play();
+			}
+
 			FVector currentVel = _pSprite->BodyInstance.GetUnrealWorldVelocity();
 
 			if (FMath::Abs(currentVel.Z) < _MaxVelZ) {
@@ -143,6 +165,8 @@ void ABasicWallJumper::Climb(float value)
 		}
 		else if (!_OnWall && _OnFloor) {
 			_pSprite->BodyInstance.AddForce(FVector(0.0f, 0.0f, 1.0f) * _ForceScalarZ * value);
+			_pJumpAudio->SetSound(_pJumpSound);
+			_pJumpAudio->Play();
 		}
 	}
 

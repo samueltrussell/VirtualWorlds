@@ -31,5 +31,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, category = "Custom", meta = (AllowPrivateAccess = "true"))
 	class UPaperSpriteComponent* _pSprite;
+
+	UPROPERTY(VisibleAnywhere, BluePrintReadOnly, category = "Custom", meta = (AllowPrivateAccess = "true"))
+	class UAudioComponent* _pAudio;
 	
 };

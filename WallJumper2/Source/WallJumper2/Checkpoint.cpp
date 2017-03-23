@@ -26,6 +26,9 @@ ACheckpoint::ACheckpoint()
 	
 	_pSphere->OnComponentBeginOverlap.Add(onBeginOverlapFunc);
 
+	_pAudio = CreateDefaultSubobject<UAudioComponent>(TEXT("SoundEmitter"));
+	_pAudio->bAutoActivate = false;
+	_pAudio->SetRelativeLocation(FVector(0.0f, 0.0f, 0.0f));
 }
 
 // Called when the game starts or when spawned
@@ -51,5 +54,6 @@ void ACheckpoint::OnBeginOverlap(class UPrimitiveComponent* OverlappedComp, clas
 	if (testActor) {
 		testActor->SetSpawnPoint(this);
 		_pSprite->SetSpriteColor(FLinearColor(0.0f, 1.0f, 0.0f));
+		_pAudio->Play();
 	}
 }
